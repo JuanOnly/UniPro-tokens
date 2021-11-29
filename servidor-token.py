@@ -35,11 +35,16 @@ def crear():
 @app.route("/validar-token")
 def validar():
     token = request.args.get("token")
+    rol = request.args.get("rol")
     try:
         secret_key = "Jwt@Tokens*"
-        jwt.decode(token, secret_key, algorithms=['HS256'])
-        return "OK"
+        token = jwt.decode(token, secret_key, algorithms=['HS256'])
+        if token["rol"] == rol:
+            return "OK"
+        else:
+            return "KO"
     except Exception as e:
         return "KO"
+
 if __name__ == '__main__':
     app.run(host="localhost", port=5001)
