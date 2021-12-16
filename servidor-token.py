@@ -39,10 +39,22 @@ def validar():
     try:
         secret_key = "Jwt@Tokens*"
         token = jwt.decode(token, secret_key, algorithms=['HS256'])
+        print(token)
         if token["rol"] == rol:
             return "OK"
         else:
             return "KO"
+    except Exception as e:
+        return "KO"
+
+
+@app.route("/verificar-token")
+def verificar():
+    token = request.args.get("token")
+    try:
+        secret_key = "Jwt@Tokens*"
+        token = jwt.decode(token, secret_key, algorithms=['HS256'])
+        return "OK"
     except Exception as e:
         return "KO"
 
